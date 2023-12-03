@@ -25,7 +25,7 @@
         <a href="{{ route("login") }}">Войти</a>
     @endif
 
-    @if(isset($UsersData))
+    @if((isset($UsersData)) && (session('UserName', '-') != '-'))
         @if(count($UsersData))
             <div class="mb-5">
                 <form method="get" action="/StoreDataHandler" id="user_config">
@@ -41,6 +41,10 @@
                                 @endif
                             @endforeach
                     </select>
+
+                    <input name="order_name" type="text" class="form-control mb-3" placeholder="Name" />
+                    <input name="order_price" type="number" class="form-control mb-3" placeholder="цена" />
+                    <button name="IsGoStoreView" value="1" type="submit" class="btn btn-dark">Установить</button>
 
                 </form>
             </div>
