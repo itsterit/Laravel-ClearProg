@@ -10,6 +10,11 @@
 
 </head>
 <div class="container mt-5">
+    @php
+        use App\Models\User;
+        $UsersData = User::all();
+        $GET_local_user = $_GET['User'] ?? "";
+    @endphp
 
     @if(session('UserName', '-') != '-')
         <a href="{{ route("EndSession") }}">выйти</a>
@@ -19,4 +24,27 @@
     @else
         <a href="{{ route("login") }}">Войти</a>
     @endif
+
+    @if(isset($UsersData))
+        @if(count($UsersData))
+            <div class="mb-5">
+                <form method="get" action="/StoreDataHandler" id="user_config">
+
+                    <!-- Пользователи -->
+                    <select class="form-control mb-2" name="User" onchange="document.getElementById('user_config').submit()">
+                            <option  value="-1" selected>Пользователь неопределен</option>
+                            @foreach($UsersData as $User)
+                                @if($GET_local_user == $User->name)
+                                    <option value="{{ $User->name }}" selected>{{ $User->name }}</option>
+                                @else
+                                    <option value="{{ $User->name }}">{{ $User->name }}</option>
+                                @endif
+                            @endforeach
+                    </select>
+
+                </form>
+            </div>
+        @endif
+    @endif
+
 </div>
